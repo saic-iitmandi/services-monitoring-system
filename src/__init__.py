@@ -2,6 +2,7 @@
 from flask import Flask
 from os import path
 import secrets
+from apscheduler.schedulers.background import BackgroundScheduler
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_login import LoginManager
 
@@ -14,12 +15,21 @@ def create_app():
   app.config['SECRET_KEY'] = secrets.token_hex(20)
   # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
   # db.init_app(app)
+  scheduler = BackgroundScheduler()
+  from .cron import cronCall
+  scheduler.add_job(cronCall, 'interval', hours=1)
 
   from .views import views
   # from .auth import auth
 
   app.register_blueprint(views, url_prefix='/')
   # app.register_blueprint(auth, url_prefix='/')
+  with app.app_context():
+    scheduler.start()
+
+  @app.teardown_appcontext
+  def stop_scheduler(exception=None):
+    scheduler.shutdown()
 
   # from .models import User, Note
 
