@@ -2,6 +2,7 @@ from .controllers import getAllServices, getService
 from flask import Blueprint, render_template, request, flash, jsonify
 import json
 import os
+from .cron import cronCall
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -41,11 +42,10 @@ def serviceRoute(name):
 def updateStatusManually():
   # this function expects a JSON from the INDEX.js file
   password = request.args.get("pass")
-  print(os.environ.get("ADMIN_PASSWORD", ""))
   if password != os.environ.get("ADMIN_PASSWORD", ""):
     return "chle ja bhai"
-
-  #
-  # cron function
-
-  return "updated"
+  try:
+    cronCall()
+    return "updated"
+  except:
+    return "some error occured"

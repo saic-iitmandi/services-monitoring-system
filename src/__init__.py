@@ -3,6 +3,7 @@ from flask import Flask
 from os import path
 import secrets
 from apscheduler.schedulers.background import BackgroundScheduler
+import datetime
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_login import LoginManager
 
@@ -17,7 +18,8 @@ def create_app():
   # db.init_app(app)
   scheduler = BackgroundScheduler()
   from .cron import cronCall
-  scheduler.add_job(cronCall, 'interval', hours=1)
+  scheduler.add_job(cronCall, 'date', run_date=datetime.datetime.now())
+  scheduler.add_job(cronCall, 'interval', hours=20, id='main')
 
   from .views import views
   # from .auth import auth
@@ -26,10 +28,6 @@ def create_app():
   # app.register_blueprint(auth, url_prefix='/')
   with app.app_context():
     scheduler.start()
-
-  @app.teardown_appcontext
-  def stop_scheduler(exception=None):
-    scheduler.shutdown()
 
   # from .models import User, Note
 
