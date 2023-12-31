@@ -1,3 +1,6 @@
 .env
 venv/
-
+nginx-sites-enabled
+__pycache__
+status.json
+services.json
