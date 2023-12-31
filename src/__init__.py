@@ -1,6 +1,7 @@
 
 from flask import Flask
 from os import path
+import secrets
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_login import LoginManager
 
@@ -10,7 +11,7 @@ from os import path
 
 def create_app():
   app = Flask(__name__)
-  app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
+  app.config['SECRET_KEY'] = secrets.token_hex(20)
   # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
   # db.init_app(app)
 
