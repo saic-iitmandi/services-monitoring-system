@@ -19,7 +19,7 @@ def create_app():
   scheduler = BackgroundScheduler()
   from .cron import cronCall
   scheduler.add_job(cronCall, 'date', run_date=datetime.datetime.now())
-  scheduler.add_job(cronCall, 'interval', hours=20, id='main')
+  scheduler.add_job(cronCall, 'interval', hours=1, id='main')
 
   from .views import views
   # from .auth import auth
