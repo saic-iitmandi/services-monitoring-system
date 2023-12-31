@@ -34,9 +34,10 @@ def checkStatus(inp):
   # print("checking status of ", service['dns'])
   now = datetime.datetime.now()
   try:
-    if service['dns'] == "":
+    if service['dns'] == "iitmandi.co.in;":
       r = requests.get(
           "https://iitmandi.co.in", timeout=3)
+      status['link'] = "iitmandi.co.in"
     else:
       r = requests.get(
           "https://" + service['dns'] + ".iitmandi.co.in", timeout=3)
