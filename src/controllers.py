@@ -5,7 +5,7 @@ def getAllServices():
   servicesStatus = []
   try:
     with open('status.json') as json_file:
-      servicesStatus = json.load(json_file)
+      servicesStatus = json.load(json_file)['services']
       return [{k: v for k, v in service.items() if k != 'port'} for service in servicesStatus]
   except FileNotFoundError:
     # also call the cron function
