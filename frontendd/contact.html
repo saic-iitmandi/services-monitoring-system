@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Activity</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+  }
+  body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  height: 100%; /* Prevents scrolling when the image scales */
+}
+
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('bg2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  animation: animateBg 5s linear infinite;
+  z-index: -1; /* Move the background behind other content */
+}
+
+@keyframes animateBg {
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+}
+
+header h1 {
+  font-weight: bold;
+  position: relative;
+}
+
+header h1::before {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ff0000; /* Set the color of the flashing line */
+  animation: flash 2s infinite alternate;
+}
+
+@keyframes flash {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+.logo {
+  font-size: 3em;
+  color:white;
+  user-select: none;
+}
+
+
+
+.navigation a {
+  position: relative;
+  font-size: 1.1em;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+}
+
+.navigation a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 5px;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform .5s;
+}
+
+.navigation a:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.navigation .bthLogin-popup {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #ffffff;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #ffffff;
+  font-weight: 500;
+  margin-left: 40px;
+  transition: .5s;
+}
+
+.navigation .bthLogin-popup:hover {
+  background: #ffffff;
+  color: #162938;
+}
+
+.wrapper {
+  position: relative;
+  width: 400px;
+  height: 440px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(223, 215, 215, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transform: scale(0);
+  transition: transform .5s ease, height .2s ease;
+}
+
+.wrapper.active-popup {
+  transform: scale(1);
+}
+
+.wrapper.active {
+  height: 520px;
+}
+
+.wrapper .form-box {
+  width: 100%;
+  padding: 40px;
+}
+
+.wrapper .form-box.login {
+  transition: transform .18s ease;
+  transform: translateX(0);
+}
+
+.wrapper.active .form-box.login {
+  transition: none;
+  transform: translateX(-400px);
+}
+
+.wrapper .form-box.register {
+  position: absolute;
+  transition: none;
+  transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+  transition: transform .18s ease;
+  transform: translateX(0);
+}
+
+.wrapper .icon-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45px;
+  height: 45px;
+  background:#efefef;
+  font-size: 2em;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.form-box h2 {
+  font-size: 2em;
+  color: #ececec;
+  text-align: center;
+  
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid #cdd3d7;
+  margin: 30px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #d2d6d8;
+  font-weight: 500;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -5px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #bfc6cb;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+  position: absolute;
+  right: 8px;
+  font-size: 1.2em;
+  color: #b1b7bc;
+  line-height: 57px;
+}
+
+.remember-forgot {
+  font-size: .9em;
+  color: #caced1;
+  font-weight: 500;
+  margin: -15px 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember-forgot label input {
+  accent-color: #7d8287;
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  color: #f5f7f8;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.bth {
+  width: 100%;
+  height: 45px;
+  background: #154d77;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.login-register {
+  font-size: .9em;
+  color: #7f8284;
+  text-align: center;
+  font-weight: 500;
+  margin: 25px 0 10px;
+}
+
+.login-register p a {
+  color: #1c72b3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-register p a:hover {
+  text-decoration: underline;
+}
+
+/* for main  */
+.logout-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  padding: 8px 16px;
+  background-color: #e35d0a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  }
+
+  /* Define different box outline colors based on active or not */
+  .boxed {
+      display: inline-block;
+      width: 23%;
+      margin: 1%;
+      box-sizing: border-box;
+      padding: 80px;
+      position: relative;
+      
+      border-radius: 20px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 16px rgba(157, 149, 149, 0.5);
+    }
+    
+    .box-content {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(18, 16, 16, 0.9);
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 15px;
+      overflow: hidden; 
+    }
+    
+    .boxed:hover .box-content {
+      display: block;
+    }
+    
+    .button-container {
+      text-align: center;
+      margin-top: 15px;
+    }
+    
+    .button-container a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    
+    .contact-section {
+      background-color: #f4f4f4;
+      padding: 10px;
+      text-align: left;
+    }
+    
+    .contact-info {
+      font-size: 15px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    
+    .contact-logo {
+      position: relative;
+      bottom: 0;
+      left: 0;
+      width: 80px; /* Adjust the width as needed */
+    }
+    
+    .boxed.red {
+      border: 1px solid #ff0000; /* not active */
+    }
+    
+    .boxed.green {
+      border: 1px solid #00ff00; /* active */
+    }
+    
+    /* Text color in the box content */
+    .box-content h3,
+    .box-content p,
+    .button-container a {
+      color: #fff;
+    }
+  </style>
+
+</head>
+<body>
+    <div class="background-container"></div>
+    <header>
+        
+        <h1 class="logo">IIT Mandi</h1>
+    
+        <nav class="navigation">
+          <a href="home.html">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="contact.html">Contact</a>
+          <a href="index.html" class="logout-button">Logout</a>
+        </nav>  
+    </header>
+    
+    <!-- Contact Section -->
+    <div class="contact-section">
+        <!-- Logo in the contact section -->
+        <img src="download.png" alt="Institute logo" class="contact-logo">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+          <p>Email: example@example.com</p>
+          <p>Phone: +1(555)123-4567</p>
+        </div>
+      </div>
+</body>
+</html>
