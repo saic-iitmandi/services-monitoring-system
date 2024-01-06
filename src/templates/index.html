@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<title>Login and Registration</title>
-		<link rel="stylesheet" href="static/style.css" />
+		<title>Website Activity</title>
+		<link rel="stylesheet" type="text/css" href="static/style.css" />
 	</head>
 	<body>
+		<div class="background-container"></div>
 		<header>
 			<h1 class="logo">IIT Mandi</h1>
 
@@ -15,92 +15,39 @@
 				<a href="home.html">Home</a>
 				<a href="#">About</a>
 				<a href="#">Services</a>
-				<a href="#">Contact</a>
-				<button class="bthLogin-popup">Login</button>
+				<a href="index.html" class="logout-button">Logout</a>
 			</nav>
 		</header>
-		<div class="wrapper">
-			<span class="icon-close">
-				<ion-icon name="close"></ion-icon>
-			</span>
-			<div class="form-box login">
-				<h2>Login</h2>
-				<form action="#">
-					<div class="input-box">
-						<span class="icon">
-							<ion-icon name="mail"></ion-icon>
-						</span>
-						<input type="email" required />
-						<label>Email</label>
-					</div>
-					<div class="input-box">
-						<span class="icon">
-							<ion-icon name="lock-closed"></ion-icon>
-						</span>
-						<input type="password" required />
-						<label>Password</label>
-					</div>
-					<div class="remember-forgot">
-						<label><input type="checkbox" required /> Remember me</label>
-						<a href="#">Forgot Password?</a>
-					</div>
-					<button type="submit" class="bth">Login</button>
-					<div class="login-register">
-						<p>
-							Don't have an account?
-							<a href="#" class="register-link">Register</a>
-						</p>
-					</div>
-				</form>
-			</div>
-
-			<div class="form-box register">
-				<h2>Registration</h2>
-				<form action="#">
-					<div class="input-box">
-						<span class="icon">
-							<ion-icon name="person"></ion-icon>
-						</span>
-						<input type="text" required />
-						<label>Username</label>
-					</div>
-					<div class="input-box">
-						<span class="icon">
-							<ion-icon name="mail"></ion-icon>
-						</span>
-						<input type="email" required />
-						<label>Email</label>
-					</div>
-					<div class="input-box">
-						<span class="icon">
-							<ion-icon name="lock-closed"></ion-icon>
-						</span>
-						<input type="password" required />
-						<label>Password</label>
-					</div>
-					<div class="remember-forgot">
-						<label
-							><input type="checkbox" required /> I agree to the terms &
-							conditions</label
-						>
-					</div>
-					<button type="submit" class="bth">Register</button>
-					<div class="login-register">
-						<p>
-							Already have an account? <a href="#" class="login-link">Login</a>
-						</p>
-					</div>
-				</form>
-			</div>
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>Website</th>
+						<th>Status</th>
+						<th>Visit Info</th>
+					</tr>
+				</thead>
+				<tbody id="websiteTableBody">
+					{% for service in services %}
+					<tr>
+						<td class="white-text">{{service.name}}</td>
+						{% if(service.remark == "UP") %}
+						<td class="green">ACTIVE</td>
+						{% else %}
+						<td class="red">DOWN</td>
+						{% endif %}
+						<td>
+							<a
+								href="/service/{{service.name}}"
+								class="logout-button"
+								target="_blank"
+								>More Info</a
+							>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
-		<script src="static/script.js"></script>
-		<script
-			type="module"
-			src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-		></script>
-		<script
-			nomodule
-			src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-		></script>
 	</body>
 </html>

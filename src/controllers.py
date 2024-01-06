@@ -14,6 +14,7 @@ def getAllServices():
   except:
     print('err')
     return None
+  servicesStatus = servicesStatus.sort(key=lambda x: x['name'].lower())
   return servicesStatus
 
 
@@ -21,4 +22,4 @@ def getService(name):
   servicesStatus = getAllServices()
   if servicesStatus == None:
     return None
-  return next((x for x in servicesStatus if x['dns'] == name), None)
+  return next((x for x in servicesStatus if x['name'] == name), None)
