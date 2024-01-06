@@ -1,8 +1,10 @@
 from .controllers import getAllServices, getService
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 import json
 import os
+import datetime
 from .cron import cronCall
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -15,7 +17,7 @@ views = Blueprint('views', __name__)
 
 @views.route('/', methods=['GET'])
 def home():
-  return render_template("index.html")
+  return redirect(url_for('views.servicesRoute'))
 
 
 @views.route('/services', methods=['GET'])
@@ -23,7 +25,7 @@ def servicesRoute():
   ans = getAllServices()
   if ans == None:
     return "processing, please revisit after some time"
-  return render_template("services.html", services=ans)
+  return render_template("index.html", services=ans)
 
 
 @views.route('/service/<name>', methods=['GET'])
@@ -32,10 +34,28 @@ def serviceRoute(name):
   if not name.isalpha():
     return "err! wrong input"
   sanitizedName = name.replace("{", "").replace("}", "")
+
   ans = getService(sanitizedName)
+  today = datetime.datetime.now()
+  past_days = [today - datetime.timedelta(days=i) for i in range(90)]
+
+  # Convert downtime data to graph data
+  graph_data = []
+  for day in past_days:
+    is_down = any(
+      datetime.datetime.strptime(downtime['startTime'], '%Y-%m-%d %H:%M:%S') <= day and
+      datetime.datetime.strptime(
+        downtime.get('endTime', today.strftime('%Y-%m-%d %H:%M:%S')), '%Y-%m-%d %H:%M:%S') >= day - datetime.timedelta(days=1)
+        for downtime in ans['downTime']
+    )
+    graph_data.append({
+        'color': 'red' if is_down else 'green',
+        'tooltip': f'{day.strftime("%Y-%m-%d")}: {"Down" if is_down else "Up"}',
+    })
+  graph_data.reverse()
   if ans == None:
     return "processing..."
-  return render_template("service.html", service=ans)
+  return render_template("service.html", service={**ans, 'graph': graph_data})
 
 
 @views.route('/api/update', methods=['GET'])

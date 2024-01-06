@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Website Activity</title>
+		<link rel="stylesheet" type="text/css" href="/static/style.css" />
+		<style>
+			.graph-container {
+				display: flex;
+				justify-content: space-between;
+				padding: 10px;
+				background-color: white;
+				width: 40vw;
+				margin-top: 60px;
+			}
+			@media screen and (max-width: 768px) {
+				.graph-container {
+					width: 80vw;
+				}
+				
+			}
+
+			.graph-bar {
+				width: 5px;
+				height: 25px;
+				margin: 0 1px;
+				border-radius: 5px;
+				transition: background-color 0.3s;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="background-container"></div>
+		<header>
+			<h1 class="logo">IIT Mandi</h1>
+
+			<nav class="navigation">
+				<a href="home.html">Home</a>
+				<a href="#">About</a>
+				<a href="#">Services</a>
+				<a href="index.html" class="logout-button">Logout</a>
+			</nav>
+		</header>
+		<div class="table-container" style="display: flex;align-items: center;flex-direction: column;" >
+			<div class="white-text" style="font-size: 60px">{{service.name}}</div>
+			{% if(service.remark == "UP") %}
+			<div style="font-size: 40px; margin-top: 30px" class="green">ACTIVE</div>
+			{% else %}
+			<div style="font-size: 40px; margin-top: 30px" class="red">DOWN</div>
+			{% endif %}
+				<div class="graph-container">
+					{% for data in service.graph %}
+					<div
+						class="graph-bar"
+						style="background-color: {{ data.color }};"
+						title="{{ data.tooltip }}"
+					></div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
