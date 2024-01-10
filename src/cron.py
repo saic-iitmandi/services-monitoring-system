@@ -38,7 +38,10 @@ def checkStatus(inp):
       r = requests.get(
           "https://iitmandi.co.in", timeout=3)
       status['link'] = "iitmandi.co.in"
+<<<<<<< HEAD
       status['name'] = "iitmandi"
+=======
+>>>>>>> 9102e6bcf71435ee1c6924b10a503e496e3c9822
     else:
       r = requests.get(
           "https://" + service['dns'] + ".iitmandi.co.in", timeout=3)
