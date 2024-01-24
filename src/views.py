@@ -2,13 +2,9 @@ from .controllers import getAllServices, getService
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 import json
 import os
-<<<<<<< HEAD
 import datetime
 from .cron import cronCall
 
-=======
-from .cron import cronCall
->>>>>>> 9102e6bcf71435ee1c6924b10a503e496e3c9822
 from dotenv import load_dotenv
 load_dotenv()
 
