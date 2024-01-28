@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="\static\style.css" />
+        {% block head %}{% endblock %}
+	</head>
+	<body>
+		<div class="background-container"></div>
+		<header>
+			<!-- <div class = "logoicon"><img src="\static\iitlogo.png" alt="logo" class="logoimg"></div> -->
+			<h1 class="logo">IIT Mandi</h1>
+
+			<nav class="navigation">
+				<a href="home.html">Home</a>
+				<a href="#">About</a>
+				<a href="#">Services</a>
+				<a href="index.html" class="logout-button">Logout</a>
+			</nav>
+		</header>
+        <form action="/ticket" method="POST">
+            <input type="text" name="title" id="title">
+            <input type="text" name="content" id="content">
+
+            <input type="submit" value="Add Task">
+        </form>
+		{% block body %}{% endblock %}
+	</body>
+</html>

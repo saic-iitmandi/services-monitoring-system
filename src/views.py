@@ -1,5 +1,7 @@
+from .models import Ticket
+from . import db
 from .controllers import getAllServices, getService
-from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for, session
 import json
 import os
 import datetime
@@ -8,9 +10,7 @@ from .cron import cronCall
 from dotenv import load_dotenv
 load_dotenv()
 
-# from . import db
 # from flask_login import login_required, current_user
-# from .models import Note
 
 views = Blueprint('views', __name__)
 
@@ -69,3 +69,31 @@ def updateStatusManually():
     return "updated"
   except:
     return "some error occured"
+
+
+@views.route('/ticket', methods=['GET', 'POST'])
+def newTicket():
+
+    # user = session['user']
+    # print(user)
+  if session.get("user", None) != None:
+    user = session['user']
+
+    if request.method == 'POST':
+      content = request.form['content']
+      title = request.form['title']
+      new_ticket = Ticket(content=content, title=title,
+                          email=user["email"], oauth_id=user["sub"])
+      try:
+        db.session.add(new_ticket)
+        db.session.commit()
+        return redirect('/ticket')
+
+      except:
+        return 'errorrrr'
+
+    return render_template('ticket.html')
+  else:
+
+    session["next"] = "/ticket"
+    return redirect(url_for("auth.login"))
