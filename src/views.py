@@ -6,7 +6,7 @@ import json
 import os
 import datetime
 from .cron import cronCall
-
+from .discord import webhook
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -87,6 +87,8 @@ def newTicket():
       try:
         db.session.add(new_ticket)
         db.session.commit()
+        webhook(
+          "ticket", {"content": content, "title": title, "email": user["email"]})
         return redirect('/ticket')
 
       except:

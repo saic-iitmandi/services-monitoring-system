@@ -16,16 +16,18 @@ def login():
 def authorize():
   token = google.authorize_access_token()
   user_info = token['userinfo']
+  # user = User.query.filter_by(oauth_id=user_info['sub']).first()
   print(user_info['email'])
-  next = session.get("next")
-  session.pop('next', None)
+  # if not user:
+  #     user = User(google_id=user_info['sub'], name=user_info['name'], email=user_info['email'])
+  #     db.session.add(user)
+  #     db.session.commit()
 
   session['user'] = user_info
-  session.permanent = True
-  return redirect(next or url_for("views.servicesRoute"))
+  return redirect(url_for('views.servicesRoute'))
 
 
 @auth.route('/logout')
 def logout():
   session.pop('user', None)
-  return 'Logged out successfully'
+  return redirect(url_for("views.servicesRoute"))
