@@ -6,7 +6,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
-import os 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -20,6 +22,7 @@ google = oauth.register(
     server_metadata_url=CONF_URL,
     client_kwargs={'scope': 'openid profile email'},
 )
+
 
 def create_app():
   app = Flask(__name__)
