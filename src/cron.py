@@ -5,6 +5,7 @@ import datetime
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures
 import os
+from .discord import webhook
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -68,6 +69,8 @@ def checkStatus(inp):
       slicer = min(20, len(newDownTime) - 1)
       newDownTime = newDownTime[-slicer:]
       status['downTime'] = newDownTime
+      webhook(
+        "up", {"name": status['name'], "port": status['port'], "dns": service['dns']})
   else:
     status['remark'] = "DOWN"
     if len(oldDownTime) == 0 or oldDownTime[-1].get('endTime', None) != None:
@@ -76,6 +79,8 @@ def checkStatus(inp):
       slicer = min(20, len(newDownTime) - 1)
       newDownTime = newDownTime[-slicer:]
       status['downTime'] = newDownTime
+      webhook(
+        "down", {"name": status['name'], "port": status['port'], "dns": service['dns']})
     coloredPrint("DOWN: " + status['link'], RED)
   return status
 

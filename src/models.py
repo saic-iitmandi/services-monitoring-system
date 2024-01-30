@@ -1,6 +1,7 @@
 from . import db
 # from flask_login import UserMixin
 from sqlalchemy.sql import func
+from datetime import datetime
 
 
 # class Note(db.Model):
@@ -11,7 +12,16 @@ from sqlalchemy.sql import func
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True)
-    oauth_id = db.Column(db.String(50), unique=True, nullable=False)
-    # notes = db.relationship('Note')
+  id = db.Column(db.Integer, primary_key=True)
+  email = db.Column(db.String(150), unique=True)
+  oauth_id = db.Column(db.String(50), unique=True, nullable=False)
+  # notes = db.relationship('Note')
+
+
+class Ticket(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  email = db.Column(db.String(150))
+  oauth_id = db.Column(db.String(50), nullable=False)
+  content = db.Column(db.String(200), nullable=False)
+  title = db.Column(db.String(200), nullable=False)
+  date_created = db.Column(db.DateTime, default=datetime.utcnow)
