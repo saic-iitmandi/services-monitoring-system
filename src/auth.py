@@ -9,7 +9,7 @@ auth = Blueprint('auth', __name__)
 # Routes
 @auth.route('/login')
 def login():
-  return google.authorize_redirect(url_for('auth.authorize', _external=True))
+  return google.authorize_redirect(url_for('auth.authorize', _external=True, _scheme='https'))
 
 
 @auth.route('/authorize')
