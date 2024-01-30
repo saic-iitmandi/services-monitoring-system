@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-from flask import Blueprint,session, url_for,redirect
-from .models import User
-from . import db,google  
-=======
 from flask import Blueprint, session, url_for, redirect
 from .models import User
 from . import db, google
->>>>>>> dev
 
 
 auth = Blueprint('auth', __name__)
